@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <style>
+      
+      input,select{
+        background-color: #FFFFFF;
+        border: 2px solid #CBD5E1;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+      #addButton{
+        background-color: #2563EB;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+    <h3><label for="taskInput">Enter the task name:</label></h3>
+    <input id="taskInput" type="text"
+    name="taskInput"><br>
+    <h1><label for="user">Select the username</label></h1>
+
+    <h3><select id="user">
+        <option value="" disabled selected hidden>Select User</option>
+       <h3> <option value="Sejal">Sejal</option></h3>
+    <h3><option value="Aryan">Aryan</option></select></h3>
+    <br>
+    <button id="addButton"
+        type="button">Add</button><br>
+    <ul id="taskList"></ul>
+    <script>
+      const taskInput= document.getElementById
+      ("taskInput");
+      const user = document.getElementById
+      ("user");
+      const addButton = document.getElementById
+      ("addButton");
+      const taskList = document.getElementById
+      ("taskList");
+
+        let tasks = [];
+
+      addButton.addEventListener('click',function(){
+        let task = taskInput.value;
+        let addedBy = user.value;
+
+       if (task == "") {
+      alert("Enter the task!");
+      return;
+    }
+        let newTask = { 
+          text: task,
+          addedBy: addedBy,
+          completed: false,
+        };
+
+         tasks.push(newTask);
+          taskInput.value = "";
+         renderTasks();
+
+        function renderTasks(){
+          taskList.innerHTML = "";
+
+          tasks.forEach((task, index) =>{
+              let li = document.createElement("li");
+              li.textContent = `${task.text}(${task.addedBy})`;
+
+                //Completed Toggle function
+                li.addEventListener("click", function(){
+                  tasks[index].completed = !tasks[index].completed;
+                  renderTasks();
+                })
+                if(task.completed ){
+                  li.style.textDecoration = "line-through";
+                }
+                //Delete Button
+                let delBtn = document.createElement("button");
+                delBtn.textContent = " X";
+
+                delBtn.addEventListener("click", function(e){
+                  e.stopPropagation();
+                  tasks.splice(index, 1);
+                  renderTasks();
+                });
+                li.appendChild(delBtn);
+              taskList.appendChild(li);
+
+          });
+        }
+
+
+      });
+
+    </script>
+
+</body>
+</html>
