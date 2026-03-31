@@ -5,25 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Tracker</title>
     <style>
-      
+      @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
       input,select{
-        background-color: #FFFFFF;
-        border: 2px solid #CBD5E1;
+        background-color: #e1ed9f;
+        border: 2px solid #35d335;
         border-radius: 10px;
         padding: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 6px rgba(3, 96, 69, 0.1);
       }
       #addButton{
-        background-color: #2563EB;
+        background-color: #12690c;
         color: white;
         border: none;
         border-radius: 8px;
         padding: 8px 16px;
         cursor: pointer;
       }
+      body{
+      font-family: "Tangerine", cursive;
+      font-weight: 800;
+       font-style: bold;
+        font-size: x-large;
+       background-color: beige;
+
+        margin: 0;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        height: 100vh;
+
+      }
+
+      #taskList{
+        font-size: x-large;
+        font-style:bold;
+        font-weight:800;
+        color: #12690c;
+
+      }
     </style>
 </head>
 <body>
+  <div class="container">
     <h3><label for="taskInput">Enter the task name:</label></h3>
     <input id="taskInput" type="text"
     name="taskInput"><br>
@@ -37,6 +60,7 @@
     <button id="addButton"
         type="button">Add</button><br>
     <ul id="taskList"></ul>
+    </div>
     <script>
       const taskInput= document.getElementById
       ("taskInput");
@@ -60,7 +84,7 @@
         let newTask = { 
           text: task,
           addedBy: addedBy,
-          completed: false,
+          status: "pending"
         };
 
          tasks.push(newTask);
@@ -72,7 +96,7 @@
 
           tasks.forEach((task, index) =>{
               let li = document.createElement("li");
-              li.textContent = `${task.text}(${task.addedBy})`;
+              li.textContent = `${task.text}(${task.addedBy}) - $`;
 
                 //Completed Toggle function
                 li.addEventListener("click", function(){
