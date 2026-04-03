@@ -20,6 +20,7 @@
         border-radius: 8px;
         padding: 8px 16px;
         cursor: pointer;
+
       }
       body{
       font-family: "Tangerine", cursive;
@@ -34,6 +35,9 @@
         align-items: center;
         height: 100vh;
 
+        background-image: url(Bg.png);
+        
+
       }
 
       #taskList{
@@ -43,24 +47,118 @@
         color: #12690c;
 
       }
+
+      button{
+        margin-top : 10px;
+      }
+      #box{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 50px;
+        background-color:beige;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      }
+
+      h1{
+        padding-bottom: 5px;
+        display:flex;
+        justify-content: center;
+        color:darkgreen;
+        border: 2px solid darkgreen;
+        border-radius: 10px;
+        padding-top: 5px;
+        padding-left: 0;
+        font-weight: 50px;
+        text-shadow: #35d335;
+        text-decoration:dotted;
+        text-decoration-line: underline;
+        text-decoration-thickness: 2px;
+        background-color: beige;
+      }
+      li{
+        font-family:'Times New Roman', Times, serif;
+        font-size:large;
+        cursor: pointer;
+           cursor: grab;
+      }
+      #delete{
+        border: 1px solid red;
+        border-radius: 50%;
+        background-color: beige;
+        color:red;
+        font-weight: bold;
+        margin-left: 5px;
+        cursor:pointer;
+      }
+      p{
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        font-style: italic;
+      
+      }
+      #container{
+        display:flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+       
+      }
+      .note {
+      display: flex;
+      align-items: flex-start;
+      font-family: 'Rancho', cursive;
+      font-size: 15px;
+      font-weight: 400;
+      opacity: 1;
+      border: black;
+    }
+
+      .label {
+      margin-right: 5px;
+  }
+
+       .text {
+      display: inline-block;
+      }
+      .note-box {
+        background-color: #e6ecc2;
+        border-left: 4px solid #6b8e23;
+        border-right: 4px solid #6b8e23;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 20px;
+        width: fit-content;
+      }
     </style>
 </head>
 <body>
   <div class="container">
+    <h1 > Task Tracker </h1>
+    <div id = "box">
+      <h3><label for="user">Select the username</label></h3>
+    <input id="user" type = "text" name="user"><br>
     <h3><label for="taskInput">Enter the task name:</label></h3>
     <input id="taskInput" type="text"
     name="taskInput"><br>
-    <h1><label for="user">Select the username</label></h1>
-
-    <h3><select id="user">
-        <option value="" disabled selected hidden>Select User</option>
-       <h3> <option value="Sejal">Sejal</option></h3>
-    <h3><option value="Aryan">Aryan</option></select></h3>
-    <br>
+    
     <button id="addButton"
         type="button">Add</button><br>
+
+
+   <div class="note-box">
+  <p class="note">
+    <span class="label">NOTE:</span>
+    <span class="text">
+      Mark tasks as complete by clicking them, or <br>
+      delete them using the cross button.
+    </span>
+  </p>
+</div>
     <ul id="taskList"></ul>
-    </div>
+</div>
+</div>
+    </body>
     <script>
       const taskInput= document.getElementById
       ("taskInput");
@@ -84,7 +182,7 @@
         let newTask = { 
           text: task,
           addedBy: addedBy,
-          status: "pending"
+          status: "pending",
         };
 
          tasks.push(newTask);
@@ -96,19 +194,23 @@
 
           tasks.forEach((task, index) =>{
               let li = document.createElement("li");
-              li.textContent = `${task.text}(${task.addedBy}) - $`;
+              let checked = document.createElement("input");
+              checked.setAttribute("type", "checkbox");
+              li.textContent = `${task.text}(${task.addedBy})`;
+              
 
                 //Completed Toggle function
                 li.addEventListener("click", function(){
                   tasks[index].completed = !tasks[index].completed;
                   renderTasks();
                 })
-                if(task.completed ){
+                if(task.completed){
                   li.style.textDecoration = "line-through";
                 }
                 //Delete Button
                 let delBtn = document.createElement("button");
-                delBtn.textContent = " X";
+                delBtn.id = 'delete';
+                delBtn.textContent = "X";
 
                 delBtn.addEventListener("click", function(e){
                   e.stopPropagation();
@@ -117,8 +219,8 @@
                 });
                 li.appendChild(delBtn);
               taskList.appendChild(li);
-
           });
+          localStorage.setItem("tasks", JSON.stringify(tasks)); 
         }
 
 
